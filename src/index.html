@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/style.css">
+    <title>Shooting Game</title>
+</head>
+<body>
+    <div class="game">
+
+        <div class="welcome-screen">
+            <h1>Shooting Game</h1>
+            <div class="auth-pages">
+                <span class="login-navigation">Login</span>
+                <span class="register-navigation">Register</span>
+            </div>
+        </div>
+
+        <div class="login-screen hidden">
+            <h1>Login</h1>
+            <form action="#" class="login-form">
+                <input type="text" name="email" placeholder="Email address">
+                <input type="password" name="password" placeholder="Password">
+                <button type="submit">Login</button>
+            </form>
+            <div class="redirect-box">
+                <a href="" class="login-redirect">Not registered?</a>
+            </div>
+        </div>
+
+        <div class="register-screen hidden">
+            <h1>Register</h1>
+            <form action="#" class="register-form">
+                <input type="text" name="username" placeholder="Username">
+                <input type="email" name="email" placeholder="Email address">
+                <input type="password" name="password" placeholder="Password">
+                <input type="password" name="repass" placeholder="Repeate password">
+                <button type="submit">Register</button>
+            </form>
+            <div class="redirect-box">
+                <a href="" class="register-redirect">Already have an account?</a>
+            </div>
+        </div>
+
+        <div class="start-screen hidden">
+            <span>Press to Start</span>
+        </div>
+        <div class="game-screen hidden">
+            <div class="records">
+                <div class="username">player: guest</div>
+                <div class="score">current score: 0 pts.</div>
+                <div class="personal-record">personal record: 0 pts.</div>
+                <div class="game-record">game record: 0 pts.</div>
+            </div>
+            <div class="logout-btn">Logout</div>
+        </div>
+        <div class="end-screen hidden">
+            <h1>You won!</h1>
+            <div class="result">
+                <span>Your score is</span>
+                <span class="level-score">2530 pts.</span>
+            </div>
+            <a href="" class="next-btn">NEXT LEVEL</a>
+        </div>
+
+    </div>
+
+    <script src="/js/gameState.js" type="module"></script>
+    <script src="/js/gameObjects.js" type="module"></script>
+    <script src="/js/gameEngine.js" type="module"></script>
+    <script src="/js/auth.js" type="module"></script>
+    <script src="/js/main.js" type="module"></script>
+</body>
+</html>
