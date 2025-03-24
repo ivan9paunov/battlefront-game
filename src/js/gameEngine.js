@@ -1,7 +1,13 @@
 export async function start(state, game) {
     game.createHero(state.hero);
-    game.personalRecord.textContent = await getUserScore();
-    game.gameRecord.textContent = await getBestScore();
+
+    const personalRecord = await getUserScore();
+    state.personalRecord = personalRecord.score;
+    game.personalRecord.textContent = `personal record: ${personalRecord.score} pts.`;
+    
+    const gameRecord = await getBestScore();
+    state.gameRecord = gameRecord.score;
+    game.gameRecord.textContent = `game record: ${gameRecord.score} pts.`;
 
     window.requestAnimationFrame(gameLoop.bind(null, state, game));
 };
@@ -242,7 +248,6 @@ function gameLoop(state, game, timestamp) {
             endScreen.classList.remove('hidden');
             game.levelScore.textContent = `${state.score} pts.`;
             
-            // game.nextLevelButton.replaceWith(game.nextLevelButton.cloneNode(true));
             game.nextLevelButton.addEventListener('click', async () => {
                 await saveScore(state.player, state.score);
                 window.location.reload();
@@ -377,12 +382,12 @@ async function getUserScore() {
     const response = await fetch(`/get-user-score/${_userId}`);
     const data = await response.json();
 
-    return `personal record: ${data.score} pts.`;
+    return data;
 }
 
 async function getBestScore() {
     const response = await fetch('/get-best-score');
     const data = await response.json();
 
-    return `game record: ${data.score} pts.`;
+    return data;
 }
