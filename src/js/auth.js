@@ -1,9 +1,43 @@
-import { auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, updateProfile } from './firebase.js';
 import { initGameObject } from './gameObjects.js';
+import {
+    auth,
+    createUserWithEmailAndPassword,
+    GoogleAuthProvider,
+    signInWithEmailAndPassword,
+    signInWithPopup,
+    signOut,
+    updateProfile
+} from './firebase.js';
 
+const provider = new GoogleAuthProvider();
 const game = initGameObject();
 
-document.querySelector('.register-form').addEventListener('submit', async (e) => {
+document.querySelectorAll('.google-btn').forEach(btn => {
+    btn.addEventListener('click', signInWithGoogle);
+});
+
+document.querySelector('.register-form').addEventListener('submit', (e) => registerWithEmail(e));
+
+document.querySelector('.login-form').addEventListener('submit', (e) => loginWithEmail(e));
+
+document.querySelector('.logout-btn').addEventListener('click', logout);
+
+async function signInWithGoogle() {
+    try {
+        const result = await signInWithPopup(auth, provider);
+        const user = result.user;
+
+        localStorage.setItem('userUID', user.uid);
+        
+        game.loginScreen.classList.add('hidden');
+        game.registerScreen.classList.add('hidden');
+        game.startScreen.classList.remove('hidden');
+    } catch (err) {
+            console.error('Google sign-in error:', err);
+    }
+}
+
+async function registerWithEmail(e) {
     e.preventDefault();
     const username = e.target.username.value;
     const email = e.target.email.value;
@@ -23,17 +57,18 @@ document.querySelector('.register-form').addEventListener('submit', async (e) =>
         const user = userCredential.user;
 
         await updateProfile(user, { displayName: username });
-        
+
         localStorage.setItem('userUID', user.uid);
+        document.querySelector('.register-form').reset();
 
         game.registerScreen.classList.add('hidden');
         game.startScreen.classList.remove('hidden');
     } catch (err) {
         alert('Error: ' + err.message);
     }
-});
+}
 
-document.querySelector('.login-form').addEventListener('submit', async (e) => {
+async function loginWithEmail(e) {
     e.preventDefault();
     const email = e.target.email.value;
     const password = e.target.password.value;
@@ -47,15 +82,16 @@ document.querySelector('.login-form').addEventListener('submit', async (e) => {
         const user = userCredential.user;
 
         localStorage.setItem('userUID', user.uid);
+        document.querySelector('.login-form').reset();
 
         game.loginScreen.classList.add('hidden');
         game.startScreen.classList.remove('hidden');
-    } catch(err) {
+    } catch (err) {
         alert('Error: ' + err.message);
     }
-});
+}
 
-document.querySelector('.logout-btn').addEventListener('click', async () => {
+async function logout() {
     try {
         await signOut(auth);
         localStorage.removeItem('userUID');
@@ -63,4 +99,4 @@ document.querySelector('.logout-btn').addEventListener('click', async () => {
     } catch (err) {
         alert('Error: ' + err.message);
     }
-});
+}

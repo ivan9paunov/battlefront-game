@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
     <title>Shooting Game</title>
 </head>
 <body>
@@ -19,25 +20,46 @@
 
         <div class="login-screen hidden">
             <h1>Login</h1>
+            <button class="google-btn"><i class="fa-brands fa-google"></i><span class="google-btn-text">Sign in with Google</span></button>
+            <div class="options-line">
+                <hr>
+                <span>OR</span>
+                <hr>
+            </div>
             <form action="#" class="login-form">
                 <input type="text" name="email" placeholder="Email address">
                 <input type="password" name="password" placeholder="Password">
                 <button type="submit">Login</button>
             </form>
+            <div class="options-line">
+                <hr>
+            </div>
             <div class="redirect-box">
-                <a href="" class="login-redirect">Not registered?</a>
+                <a href="" class="login-redirect">Don't have an account?</a>
             </div>
         </div>
 
         <div class="register-screen hidden">
             <h1>Register</h1>
+            <button class="google-btn">
+                <i class="fa-brands fa-google"></i>
+                <span class="google-btn-text">Sign up with Google</span>
+            </button>
+            <div class="options-line">
+                <hr>
+                <span>OR</span>
+                <hr>
+            </div>
             <form action="#" class="register-form">
-                <input type="text" name="username" placeholder="Username">
-                <input type="email" name="email" placeholder="Email address">
-                <input type="password" name="password" placeholder="Password">
-                <input type="password" name="repass" placeholder="Repeate password">
-                <button type="submit">Register</button>
-            </form>
+                    <input type="text" name="username" placeholder="Username">
+                    <input type="email" name="email" placeholder="Email address">
+                    <input type="password" name="password" placeholder="Password">
+                    <input type="password" name="repass" placeholder="Repeate password">
+                    <button type="submit">Register</button>
+                </form>
+            <div class="options-line">
+                <hr>
+            </div>
             <div class="redirect-box">
                 <a href="" class="register-redirect">Already have an account?</a>
             </div>
