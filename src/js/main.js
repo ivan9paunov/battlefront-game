@@ -50,7 +50,7 @@ document.querySelector('.register-redirect').addEventListener('click', (e) => {
     game.loginScreen.classList.remove('hidden');
 });
 
-game.startScreen.addEventListener('click', () => {
+game.startButton.addEventListener('click', () => {
     const user = auth.currentUser;
     state.player = user?.displayName || 'Guest';
 

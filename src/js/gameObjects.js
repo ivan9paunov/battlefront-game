@@ -5,6 +5,7 @@ export function initGameObject() {
     const loginScreen = document.querySelector('.login-screen');
     const registerScreen = document.querySelector('.register-screen');
     const startScreen = document.querySelector('.start-screen');
+    const startButton = document.querySelector('.start-btn');
     const gameScreen = document.querySelector('.game-screen');
     const endScreen = document.querySelector('.end-screen');
     const playerName = document.querySelector('.username');
@@ -21,6 +22,7 @@ export function initGameObject() {
         loginScreen,
         registerScreen,
         startScreen,
+        startButton,
         gameScreen,
         endScreen,
         playerName,

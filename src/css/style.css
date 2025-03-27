@@ -56,22 +56,37 @@ body {
 }
 
 .start-screen {
-    padding: 20px 8px;
-    font-size: 30px;
-    text-transform: uppercase;
-    text-align: center;
-    width: 300px;
-    color: white;
-    background-color: darkred;
-    border-radius: 16px;
-    cursor: pointer;
+    width: 430px;
     position: absolute;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
+    padding: 20px 8px;
+    color: white;
+    text-align: center;
+    text-transform: uppercase;
 }
 
-.start-screen:hover {
+.instructions {
+    padding: 10px 20px;
+    background-color: dimgrey;
+    font-size: 20px;
+    border-radius: 16px;
+    margin-bottom: 20px;
+}
+
+.start-btn {
+    cursor: pointer;
+    padding: 30px 50px;
+    font-family: Consolas;
+    font-size: 24px;
+    text-transform: uppercase;
+    background-color: darkred;
+    color: white;
+    border: 0;
+    border-radius: 16px;
+}
+.start-btn:hover {
     background-color: maroon;
 }
 

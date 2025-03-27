@@ -4,7 +4,7 @@ export async function start(state, game) {
     const personalRecord = await getUserScore();
     state.personalRecord = personalRecord.score;
     game.personalRecord.textContent = `personal record: ${personalRecord.score} pts.`;
-    
+
     const gameRecord = await getBestScore();
     state.gameRecord = gameRecord.score;
     game.gameRecord.textContent = `game record: ${gameRecord.score} pts.`;
@@ -81,131 +81,20 @@ function gameLoop(state, game, timestamp) {
 
     // Render items
     let leftItemElements = document.querySelectorAll('.left-item');
-    leftItemElements.forEach(item => {
-        let posY = parseInt(item.style.top);
-        const itemType = item.dataset.type;
+    leftItemElements.forEach(item => renderItems(item, game, state));
 
-        // Detect collision with hero
-        if (itemType != 'comrade' && detectCollision(heroElement, item)) {
-            state.gameOver = true;
-        } else if (itemType == 'comrade' && detectCollision(heroElement, item)) {
-            if (item.dataset.extraComrade > 0) {
-                const comradeElement = game.createHero({
-                    ...hero,
-                    posX: hero.posX + (state.comrades.length % 2 == 0 ? 3 : -3) * (state.comrades.length + 1)
-                }, true);
-
-                comradeElement.style.left = hero.posX + (state.comrades.length % 2 == 0 ? 3 : -3) * (state.comrades.length + 1) + '%';
-
-                state.comrades.push(comradeElement);
-            } else {
-                removeComrade(state, Math.abs(item.dataset.extraComrade));
-            }
-
-            item.remove();
-        }
-
-        if (posY < game.gameScreen.offsetHeight) {
-            item.style.top = posY + state.extraItemStats.speed + 'px';
-        } else {
-            item.remove();
-        }
-    });
     let rightItemElements = document.querySelectorAll('.right-item');
-    rightItemElements.forEach(item => {
-        let posY = parseInt(item.style.top);
-        const itemType = item.dataset.type;
-
-        // Detect collision with hero
-        if (itemType != 'comrade' && detectCollision(heroElement, item)) {
-            state.gameOver = true;
-        } else if (itemType == 'comrade' && detectCollision(heroElement, item)) {
-            if (item.dataset.extraComrade > 0) {
-                const comradeElement = game.createHero({
-                    ...hero,
-                    posX: hero.posX + (state.comrades.length % 2 == 0 ? 3 : -3) * (state.comrades.length + 1)
-                }, true);
-
-                comradeElement.style.left = hero.posX + (state.comrades.length % 2 == 0 ? 3 : -3) * (state.comrades.length + 1) + '%';
-
-                state.comrades.push(comradeElement);
-            } else {
-                removeComrade(state, Math.abs(item.dataset.extraComrade));
-            }
-
-            item.remove();
-        }
-
-        if (posY < game.gameScreen.offsetHeight) {
-            item.style.top = posY + state.extraItemStats.speed + 'px';
-        } else {
-            item.remove();
-        }
-    });
+    rightItemElements.forEach(item => renderItems(item, game, state));
 
     // Render fireballs
     document.querySelectorAll('.fireball').forEach(fireball => {
         let posY = parseInt(fireball.style.bottom);
 
         // Detect collision with item
-        leftItemElements.forEach(item => {
-            if (detectCollision(item, fireball)) {
-                const itemType = item.dataset.type;
-
-                if (itemType != 'comrade') {
-                    let currentStrength = item.dataset.strength;
-                    currentStrength -= state.fireball.fireDamage;
-
-                    if (currentStrength <= 0) {
-                        state.fireball.fireRate -= Number(item.dataset.fireRate);
-                        state.fireball.fireDamage += Number(item.dataset.fireDamage);
-                        state.fireball.width += Number(item.dataset.addWidth);
-                        state.fireball.height += Number(item.dataset.addHeight);
-
-                        item.remove();
-                        state.score += state.killScore;
-                    } else {
-                        item.dataset.strength = currentStrength;
-
-                        const textElement = item.querySelector('.strength-text');
-                        if (textElement) {
-                            textElement.textContent = currentStrength;
-                        }
-                    }
-                }
-
-                fireball.remove();
-            }
-        });
-        rightItemElements.forEach(item => {
-            if (detectCollision(item, fireball)) {
-                const itemType = item.dataset.type;
-
-                if (itemType == 'barrel' || itemType == 'gate') {
-                    let currentStrength = item.dataset.strength;
-                    currentStrength -= state.fireball.fireDamage;
-
-                    if (currentStrength <= 0) {
-                        state.fireball.fireRate -= Number(item.dataset.fireRate);
-                        state.fireball.fireDamage += Number(item.dataset.fireDamage);
-                        state.fireball.width += Number(item.dataset.addWidth);
-                        state.fireball.height += Number(item.dataset.addHeight);
-
-                        item.remove();
-                        state.score += state.killScore;
-                    } else {
-                        item.dataset.strength = currentStrength;
-
-                        const textElement = item.querySelector('.strength-text');
-                        if (textElement) {
-                            textElement.textContent = currentStrength;
-                        }
-                    }
-                }
-
-                fireball.remove();
-            }
-        });
+        leftItemElements.forEach(item => fireballCollisionWithItem(item, fireball, state));
+        
+        rightItemElements.forEach(item => fireballCollisionWithItem(item, fireball, state));
+        
         enemyElements.forEach(enemy => {
             if (detectCollision(enemy, fireball)) {
                 let currentStrength = enemy.dataset.strength;
@@ -247,7 +136,7 @@ function gameLoop(state, game, timestamp) {
             gameScreen.classList.add('hidden');
             endScreen.classList.remove('hidden');
             game.levelScore.textContent = `${state.score} pts.`;
-            
+
             game.nextLevelButton.addEventListener('click', async () => {
                 await saveScore(state.player, state.score);
                 window.location.reload();
@@ -292,6 +181,69 @@ function removeComrade(state, count = 1) {
         }
     }
 };
+
+function renderItems(item, game, state) {
+    let posY = parseInt(item.style.top);
+    const itemType = item.dataset.type;
+    const { hero } = state;
+    const { heroElement } = game;
+
+    // Detect collision with hero
+    if (itemType != 'comrade' && detectCollision(heroElement, item)) {
+        state.gameOver = true;
+    } else if (itemType == 'comrade' && detectCollision(heroElement, item)) {
+        if (item.dataset.extraComrade > 0) {
+            const comradeElement = game.createHero({
+                ...hero,
+                posX: hero.posX + (state.comrades.length % 2 == 0 ? 3 : -3) * (state.comrades.length + 1)
+            }, true);
+
+            comradeElement.style.left = hero.posX + (state.comrades.length % 2 == 0 ? 3 : -3) * (state.comrades.length + 1) + '%';
+
+            state.comrades.push(comradeElement);
+        } else {
+            removeComrade(state, Math.abs(item.dataset.extraComrade));
+        }
+
+        item.remove();
+    }
+
+    if (posY < game.gameScreen.offsetHeight) {
+        item.style.top = posY + state.extraItemStats.speed + 'px';
+    } else {
+        item.remove();
+    }
+}
+
+function fireballCollisionWithItem(item, fireball, state) {
+    if (detectCollision(item, fireball)) {
+        const itemType = item.dataset.type;
+
+        if (itemType != 'comrade') {
+            let currentStrength = item.dataset.strength;
+            currentStrength -= state.fireball.fireDamage;
+
+            if (currentStrength <= 0) {
+                state.fireball.fireRate -= Number(item.dataset.fireRate);
+                state.fireball.fireDamage += Number(item.dataset.fireDamage);
+                state.fireball.width += Number(item.dataset.addWidth);
+                state.fireball.height += Number(item.dataset.addHeight);
+
+                item.remove();
+                state.score += state.killScore;
+            } else {
+                item.dataset.strength = currentStrength;
+
+                const textElement = item.querySelector('.strength-text');
+                if (textElement) {
+                    textElement.textContent = currentStrength;
+                }
+            }
+        }
+
+        fireball.remove();
+    }
+}
 
 function detectCollision(elementA, elementB) {
     let fireball = elementA.getBoundingClientRect();
