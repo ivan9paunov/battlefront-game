@@ -139,7 +139,7 @@ function gameLoop(state, game, timestamp) {
 
             game.nextLevelButton.addEventListener('click', async () => {
                 await saveScore(state.player, state.score);
-                window.location.reload();
+                // window.location.reload();
             });
         } else {
             state.score += state.scoreRate;
@@ -314,12 +314,15 @@ function restartGame(state, game) {
 
 async function saveScore(player, score) {
     const _userId = localStorage.getItem('userUID');
+    console.log(_userId);
 
     const response = await fetch('https://battlefront-game.onrender.com/save-score', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ _userId, player, score })
     });
+
+    console.log('response', response);
 
     if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
