@@ -1,4 +1,5 @@
 require('dotenv').config();
+const cors = require('cors');
 const express = require('express');
 const { configDatabase } = require('./config/database.js');
 const path = require('path');
@@ -8,6 +9,10 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 configDatabase();
+
+app.use(cors({
+    origin: 'https://battlefront-game-nrjw41xs6-ivan9paunovs-projects.vercel.app'
+}));
 
 app.use(express.static(path.join(__dirname, 'src')));
 app.use(express.json());
