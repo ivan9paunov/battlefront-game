@@ -14,6 +14,12 @@ app.use(cors({
     origin: 'https://battlefront-game.vercel.app'
 }));
 
+app.use((req, res, next) => {
+    res.setHeader('Cross-Origin-Opener-Policy', 'same-origin-allow-popups');
+    res.setHeader('Cross-Origin-Embedder-Policy', 'require-corp');
+    next();
+});
+
 app.use(express.static(path.join(__dirname, 'src')));
 app.use(express.json());
 app.get('/favicon.ico', (req, res) => res.sendStatus(204));
