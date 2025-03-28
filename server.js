@@ -11,7 +11,7 @@ const PORT = process.env.PORT || 3000;
 configDatabase();
 
 app.use(cors({
-    origin: 'https://battlefront-game-nrjw41xs6-ivan9paunovs-projects.vercel.app'
+    origin: 'https://battlefront-game.vercel.app'
 }));
 
 app.use(express.static(path.join(__dirname, 'src')));
