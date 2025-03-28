@@ -1,5 +1,7 @@
 export async function start(state, game) {
     game.createHero(state.hero);
+    
+    game.playerName.textContent = `player: ${state.player}`;
 
     const personalRecord = await getUserScore();
     state.personalRecord = personalRecord.score;
@@ -17,7 +19,6 @@ function gameLoop(state, game, timestamp) {
     const { heroElement, gameScreen, endScreen } = game;
     const { lev1 } = state;
 
-    game.playerName.textContent = `player: ${state.player}`;
     game.scoreboard.textContent = `score: ${state.score} pts.`;
 
     // Move hero
@@ -88,11 +89,15 @@ function gameLoop(state, game, timestamp) {
 
     // Render fireballs
     document.querySelectorAll('.fireball').forEach(fireball => {
-        let posY = parseInt(fireball.style.bottom);
+        let posY = parseFloat(fireball.dataset.posY) || parseInt(fireball.style.bottom) || 0;
+
+        // Update position
+        posY += state.fireball.speed;
+        fireball.dataset.posY = posY;
+        fireball.style.bottom = `${posY}px`;
 
         // Detect collision with item
         leftItemElements.forEach(item => fireballCollisionWithItem(item, fireball, state));
-        
         rightItemElements.forEach(item => fireballCollisionWithItem(item, fireball, state));
         
         enemyElements.forEach(enemy => {
@@ -102,7 +107,6 @@ function gameLoop(state, game, timestamp) {
 
                 if (currentStrength <= 0) {
                     state.win = true;
-
                     enemy.remove();
                     state.score += state.killScore;
                 } else {
@@ -118,10 +122,9 @@ function gameLoop(state, game, timestamp) {
             }
         });
 
+        // Remove fireball if it leaves the top of the screen
         if (posY > game.gameScreen.offsetHeight) {
             fireball.remove();
-        } else {
-            fireball.style.bottom = posY + state.fireball.speed + 'px';
         }
     });
 
@@ -266,7 +269,7 @@ function restartGame(state, game) {
     state.fireball.width = 20;
     state.fireball.height = 20;
     state.fireball.nextSpawnTimestamp = 0;
-    state.fireball.fireRate = 200;
+    state.fireball.fireRate = 225;
     state.fireball.fireDamage = 1;
     state.extraItemStats.count = 0;
     state.extraItemStats.nextSpawnTimestamp = 0;

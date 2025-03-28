@@ -20,7 +20,7 @@ export function initState() {
             height: 150,
             posX: 50,
             posY: -160,
-            strength: 20846,
+            strength: 2048,
             spawned: false,
         },
         comrades: [],
@@ -29,7 +29,7 @@ export function initState() {
             height: 20,
             speed: 12,
             nextSpawnTimestamp: 0,
-            fireRate: 200,
+            fireRate: 225,
             fireDamage: 1
         },
         extraItemStats: {
@@ -46,20 +46,20 @@ export function initState() {
             Space: false
         },
         lev1: [
-            { type: 'barrel', strength: 2, fireRate: 20, fireDamage: 0, extraComrade: 0, addWidth: 0, addHeight: 0 },
-            { type: 'barrel', strength: 14, fireRate: 30, fireDamage: 0, extraComrade: 0, addWidth: 0, addHeight: 0 },
-            { type: 'barrel', strength: 24, fireRate: 40, fireDamage: 0, extraComrade: 0, addWidth: 0, addHeight: 0 },
+            { type: 'barrel', strength: 2, fireRate: 5, fireDamage: 0, extraComrade: 0, addWidth: 0, addHeight: 0 },
+            { type: 'barrel', strength: 12, fireRate: 10, fireDamage: 0, extraComrade: 0, addWidth: 0, addHeight: 0 },
+            { type: 'barrel', strength: 18, fireRate: 15, fireDamage: 0, extraComrade: 0, addWidth: 0, addHeight: 0 },
             { type: 'comrade', strength: 0, fireRate: 0, fireDamage: 0, extraComrade: 1, addWidth: 0, addHeight: 0 },
-            { type: 'gate', strength: 48, fireRate: 0, fireDamage: 3, extraComrade: 0, addWidth: 3, addHeight: 3 },
-            { type: 'gate', strength: 32, fireRate: 0, fireDamage: 2, extraComrade: 0, addWidth: 2, addHeight: 2 },
-            { type: 'barrel', strength: 128, fireRate: 50, fireDamage: 0, extraComrade: 0, addWidth: 0, addHeight: 0 },
-            { type: 'gate', strength: 196, fireRate: 0, fireDamage: 4, extraComrade: 0, addWidth: 4, addHeight: 4 },
+            { type: 'gate', strength: 30, fireRate: 0, fireDamage: 3, extraComrade: 0, addWidth: 3, addHeight: 3 },
+            { type: 'gate', strength: 22, fireRate: 0, fireDamage: 2, extraComrade: 0, addWidth: 2, addHeight: 2 },
+            { type: 'barrel', strength: 112, fireRate: 20, fireDamage: 0, extraComrade: 0, addWidth: 0, addHeight: 0 },
+            { type: 'gate', strength: 128, fireRate: 0, fireDamage: 4, extraComrade: 0, addWidth: 4, addHeight: 4 },
             { type: 'comrade', strength: 0, fireRate: 0, fireDamage: 0, extraComrade: 1, addWidth: 0, addHeight: 0 },
             { type: 'comrade', strength: 0, fireRate: 0, fireDamage: 0, extraComrade: -1, addWidth: 0, addHeight: 0 },
             { type: 'gate', strength: 256, fireRate: 0, fireDamage: 5, extraComrade: 0, addWidth: 5, addHeight: 5 },
-            { type: 'barrel', strength: 256, fireRate: 60, fireDamage: 0, extraComrade: 0, addWidth: 0, addHeight: 0 },
+            { type: 'barrel', strength: 256, fireRate: 25, fireDamage: 0, extraComrade: 0, addWidth: 0, addHeight: 0 },
             { type: 'comrade', strength: 0, fireRate: 0, fireDamage: 0, extraComrade: 2, addWidth: 0, addHeight: 0 },
-            { type: 'gate', strength: 4092, fireRate: 0, fireDamage: 6, extraComrade: 0, addWidth: 6, addHeight: 6 }
+            { type: 'gate', strength: 1024, fireRate: 0, fireDamage: 6, extraComrade: 0, addWidth: 6, addHeight: 6 }
         ]
     };
 
