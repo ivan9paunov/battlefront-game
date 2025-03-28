@@ -315,7 +315,7 @@ function restartGame(state, game) {
 async function saveScore(player, score) {
     const _userId = localStorage.getItem('userUID');
 
-    const response = await fetch('/save-score', {
+    const response = await fetch('https://battlefront-game.onrender.com/save-score', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ _userId, player, score })
@@ -331,14 +331,14 @@ async function saveScore(player, score) {
 
 async function getUserScore() {
     const _userId = localStorage.getItem('userUID');
-    const response = await fetch(`/get-user-score/${_userId}`);
+    const response = await fetch(`https://battlefront-game.onrender.com/get-user-score/${_userId}`);
     const data = await response.json();
 
     return data;
 }
 
 async function getBestScore() {
-    const response = await fetch('/get-best-score');
+    const response = await fetch('https://battlefront-game.onrender.com/get-best-score');
     const data = await response.json();
 
     return data;
