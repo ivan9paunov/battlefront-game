@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const { configDatabase } = require('./config/database.js');
 const path = require('path');

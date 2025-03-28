@@ -1,11 +1,10 @@
 const mongoose = require('mongoose');
+require('dotenv').config();
 require('../models/Score.js');
 
 async function configDatabase() {
-    const connectionString = 'mongodb://localhost:27017/gameDB';
-
     try {
-        await mongoose.connect(connectionString);
+        await mongoose.connect(process.env.MONGODB_URI);
         console.log('Connected to MongoDB');
     } catch (err) {
         console.error('Error connecting to MongoDB:', err);
