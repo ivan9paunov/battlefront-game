@@ -16,7 +16,7 @@ app.use(cors({
 
 app.use(express.static(path.join(__dirname, 'src')));
 app.use(express.json());
-app.get('/favicon.ico', (req, res) => res.status(204).end());
+app.get('/favicon.ico', (req, res) => res.sendStatus(204));
 
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'src', 'index.html'));
