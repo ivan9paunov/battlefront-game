@@ -39,12 +39,27 @@ async function signInWithGoogle() {
 
 async function registerWithEmail(e) {
     e.preventDefault();
-    const username = e.target.username.value;
     const email = e.target.email.value;
+    const username = e.target.username.value;
     const password = e.target.password.value;
     const repass = e.target.repass.value;
 
-    if (!username || !email || !password || !repass) {
+    const emailRegExp = new RegExp(/^[A-Za-z0-9_]+(?:[A-Za-z0-9._-]*[A-Za-z0-9_])?@[A-Za-z]+\.[A-Za-z]{2,4}(\.[A-Za-z]{2,4})?$/);
+    const usernameRegExp = new RegExp(/^[A-Za-z0-9_][A-Za-z0-9\._]{3,}$/);
+    const passwordRegExp = new RegExp(/^\S{6,}$/);
+
+    if (!email || !username || !password || !repass) {
+        return;
+    }
+
+    // TODO - add error handling
+    if (!emailRegExp.test(email)) {
+        return;
+    } 
+    if (!usernameRegExp.test(username)) {
+        return;
+    }
+    if (!passwordRegExp.test(password)) {
         return;
     }
 
